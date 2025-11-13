@@ -1,0 +1,13 @@
+from fastapi import FastAPI
+import asyncio
+
+app = FastAPI()
+
+async def run_etl():
+    await asyncio.sleep(1)  # simulate ETL start
+    print("ETL job running...")
+
+@app.post("/start-etl")
+async def start_etl():
+    asyncio.create_task(run_etl())  # runs in background
+    return {"message": "ETL triggered successfully"}
