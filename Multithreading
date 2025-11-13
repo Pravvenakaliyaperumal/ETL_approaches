@@ -1,0 +1,24 @@
+import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+URL = "https://api.example.com/customer/"
+
+def fetch_customer(customer_id):
+    response = requests.get(f"{URL}{customer_id}", timeout=5)
+    return response.json()
+
+def extract_customers(ids):
+    results = []
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        futures = [executor.submit(fetch_customer, cid) for cid in ids]
+
+        for f in as_completed(futures):
+            results.append(f.result())
+
+    return results
+
+
+if __name__ == "__main__":
+    ids = range(1, 2001)
+    data = extract_customers(ids)
+    print("Records fetched:", len(data))
