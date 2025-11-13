@@ -1,0 +1,18 @@
+from multiprocessing import Pool, cpu_count
+
+def clean_row(row):
+    # simulate heavy CPU transformation
+    row["amount"] = float(row["amount"])
+    row["status"] = row["status"].upper()
+    return row
+
+def process_dataset(rows):
+    with Pool(cpu_count()) as pool:
+        results = pool.map(clean_row, rows)
+    return results
+
+
+if __name__ == "__main__":
+    rows = [{"amount": "12.5", "status": "success"} for _ in range(1000000)]
+    cleaned = process_dataset(rows)
+    print("Done:", len(cleaned))
