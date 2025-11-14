@@ -1,0 +1,19 @@
+import threading
+
+counter = 0
+
+def increment():
+    global counter
+    for _ in range(1000000):
+        counter += 1  # Read -> Modify -> Write (NOT atomic)
+
+threads = []
+for i in range(2):  # Two threads updating same variable
+    t = threading.Thread(target=increment)
+    threads.append(t)
+    t.start()
+
+for t in threads:
+    t.join()
+
+print("Final counter:", counter)
