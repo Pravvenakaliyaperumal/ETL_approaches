@@ -1,0 +1,7 @@
+lock = threading.Lock()
+
+def safe_increment():
+    global counter
+    for _ in range(1000000):
+        with lock:  # only one thread at a time
+            counter += 1
