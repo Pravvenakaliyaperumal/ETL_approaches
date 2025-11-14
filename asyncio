@@ -1,0 +1,13 @@
+import asyncio
+
+async def fetch(source):
+    peint(f'this if fetch {source}')
+    asyncio.sleep(1)
+    
+    
+async def main():
+    await async.gather(fetch("bloom"), fetch("burg"))
+    
+    
+import psycopy2
+
